@@ -10,10 +10,12 @@ import struct
 # Create your objects here.
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
-#medium_motor = Motor(Port.D)
-#large_motor = Motor(Motor.A)
+medium_motor = Motor(Port.D)
+large_motor = Motor(Port.A)
 left_speed = 0
 right_speed = 0
+medium_motor_speed = 0
+large_motor_speed =  0
 
 # Locat the event file you want to react to, on my setup the PS4 controller button events
 # are located in /dev/input/event4
@@ -42,28 +44,35 @@ while event:
         # React to the L1 button. Medium Motor Buttons
         if code == 310 and value == 0:
             print("The L1 button was released")
+            medium_motor_speed = value*-100
         elif code == 310 and value == 1:
             print("The L1 button was pressed")
+            medium_motor_speed = value*-100
 
         # React to the L2 button
         elif code == 312 and value == 0:
             print("The L2 button was released")
+            medium_motor_speed = value*100
         elif code == 312 and value == 1:
             print("The L2 button was pressed")
-
+            medium_motor_speed = value*100
 
         # React to the R1 button. Large Motor Buttons
         elif code == 311 and value == 0:
             print("The R1 button was released")
+            large_motor_speed = value*-100
         elif code == 311 and value == 1:
             print("The R1 button was pressed")
+            large_motor_speed = value*-100
 
         # React to the R2 button
         elif code == 313 and value == 0:
             print("The R2 button was released")
+            large_motor_speed = value*100
         elif code == 313 and value == 1:
             print("The R2 button was pressed")
-    
+            large_motor_speed = value*100
+
     elif ev_type == 3: # Stick was moved
 
         # React to the left stick
@@ -77,6 +86,8 @@ while event:
     # Set motor speed
     left_motor.dc(left_speed)
     right_motor.dc(right_speed)
+    medium_motor.dc(medium_motor_speed)
+    large_motor.dc(large_motor_speed)
 
     # Read the next event
     event = in_file.read(EVENT_SIZE)
