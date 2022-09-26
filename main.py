@@ -10,6 +10,8 @@ import struct
 # Create your objects here.
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
+#medium_motor = Motor(Port.D)
+#large_motor = Motor(Motor.A)
 left_speed = 0
 right_speed = 0
 
@@ -37,11 +39,30 @@ while event:
     # If a button was pressed or released
     if ev_type == 1:
 
-        # React to the X button
-        if code == 304 and value == 0:
-            print("The X button was released")
-        if code == 304 and value == 1:
-            print("The X button was pressed")
+        # React to the L1 button. Medium Motor Buttons
+        if code == 310 and value == 0:
+            print("The L1 button was released")
+        elif code == 310 and value == 1:
+            print("The L1 button was pressed")
+
+        # React to the L2 button
+        elif code == 312 and value == 0:
+            print("The L2 button was released")
+        elif code == 312 and value == 1:
+            print("The L2 button was pressed")
+
+
+        # React to the R1 button. Large Motor Buttons
+        elif code == 311 and value == 0:
+            print("The R1 button was released")
+        elif code == 311 and value == 1:
+            print("The R1 button was pressed")
+
+        # React to the R2 button
+        elif code == 313 and value == 0:
+            print("The R2 button was released")
+        elif code == 313 and value == 1:
+            print("The R2 button was pressed")
     
     elif ev_type == 3: # Stick was moved
 
