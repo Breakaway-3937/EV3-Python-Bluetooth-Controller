@@ -38,8 +38,19 @@ while event:
     # Place event data into variables
     (tv_sec, tv_usec, ev_type, code, value) = struct.unpack(FORMAT, event)
 
+    if ev_type == 3: # Stick was moved
+
+        # React to the left stick
+        if code == 1:
+            left_speed = scale(value, (0,255), (100, -100))
+        
+        # React to the right stick
+        if code == 4:
+            right_speed = scale(value, (0,255), (100, -100))
+
+
     # If a button was pressed or released
-    if ev_type == 1:
+    elif ev_type == 1:
 
         # React to the L1 button. Medium Motor Buttons
         if code == 310 and value == 0:
@@ -73,15 +84,7 @@ while event:
             print("The R2 button was pressed")
             large_motor_speed = value*100
 
-    elif ev_type == 3: # Stick was moved
-
-        # React to the left stick
-        if code == 1:
-            left_speed = scale(value, (0,255), (100, -100))
-        
-        # React to the right stick
-        if code == 4:
-            right_speed = scale(value, (0,255), (100, -100))
+    
     
     # Set motor speed
     left_motor.dc(left_speed)
