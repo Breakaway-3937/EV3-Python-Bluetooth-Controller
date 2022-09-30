@@ -18,7 +18,7 @@ medium_motor_speed = 0
 large_motor_speed =  0
 
 # Locat the event file you want to react to, on my setup the PS4 controller button events
-# are located in /dev/input/event4
+# are located in y/dev/input/event4
 infile_path = "/dev/input/event4"
 in_file = open(infile_path, "rb")
 
@@ -43,13 +43,23 @@ while event:
         # React to the left stick
         if code == 1:
             left_speed = scale(value, (0,255), (100, -100))
+        if value == 0:
+            left_motor.brake()
+        if value >= 1:
+            left_motor.Coast()
+
         
         # React to the right stick
         if code == 4:
             right_speed = scale(value, (0,255), (100, -100))
 
 
+        left_motor.dc(left_speed)
+        right_motor.dc(right_speed)
+
+    
     # If a button was pressed or released
+    
     elif ev_type == 1:
 
         # React to the L1 button. Medium Motor Buttons
@@ -83,12 +93,9 @@ while event:
         elif code == 313 and value == 1:
             print("The R2 button was pressed")
             large_motor_speed = value*100
-
-    
     
     # Set motor speed
-    left_motor.dc(left_speed)
-    right_motor.dc(right_speed)
+    
     medium_motor.dc(medium_motor_speed)
     large_motor.dc(large_motor_speed)
 
