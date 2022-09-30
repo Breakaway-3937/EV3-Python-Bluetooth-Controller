@@ -43,16 +43,19 @@ while event:
         # React to the left stick
         if code == 1:
             left_speed = scale(value, (0,255), (100, -100))
-        if value == 0:
+        elif code == 1 and left_speed == 0:
             left_motor.brake()
-        if value >= 1:
+        elif code == 1 and left_speed >= 1 or left_speed >= -1:
             left_motor.Coast()
 
         
-        # React to the right stick
+        # React to the right stick. Check if statement below. 
         if code == 4:
             right_speed = scale(value, (0,255), (100, -100))
-
+        elif code == 4 and right_speed == 0:
+             right_motor.brake()
+        elif code == 4 and right_speed >= 1 or right_speed >= -1:
+             right_motor.Coast()
 
         left_motor.dc(left_speed)
         right_motor.dc(right_speed)
